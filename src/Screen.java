@@ -4,7 +4,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-public class StartScreen {
+public class Screen {
 
     private BufferedImage image;
 
@@ -14,16 +14,19 @@ public class StartScreen {
 
     private boolean isShowing;
 
-    public StartScreen(boolean show) {
+    private String imageName;
+
+    public Screen(boolean show, String im) {
         this.startBox = new Rectangle(-100, -100);
         this.highlight = false;
         this.image = readImage();
         this.isShowing = show;
+        this.imageName = im;
     }
 
     public BufferedImage readImage() {
         try {
-            image = ImageIO.read(new File("src/homeScreen.png"));
+            image = ImageIO.read(new File(imageName));
         }
         catch (IOException e) {
             System.out.println(e);
@@ -32,6 +35,9 @@ public class StartScreen {
         return image;
     }
 
+    public void changeImage(String newImage){
+        imageName = newImage;
+    }
 
     public void dontShow(){
         isShowing = false;

@@ -32,12 +32,19 @@ public class StartScreen {
         return image;
     }
 
-
-    public void dontShow(){
+    public void stopShowing(StartScreen x){
         isShowing = false;
+        x.image = null;
     }
 
+    public void startShowing(StartScreen x){
+        isShowing = true;
+        x.image = readImage();
+    }
 
+    public boolean checkShowing(){
+        return isShowing;
+    }
     public BufferedImage getImage() {
         return image;
     }

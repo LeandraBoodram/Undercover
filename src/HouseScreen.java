@@ -8,8 +8,9 @@ public class HouseScreen {
 
     private BufferedImage image;
 
-
+    private boolean isShowing;
     public HouseScreen (boolean show) {
+        this.isShowing = show;
         this.image = readImage();
     }
 
@@ -24,7 +25,19 @@ public class HouseScreen {
         return image;
     }
 
+    public void stopShowing(HouseScreen x){
+        isShowing = false;
+        x.image = null;
+    }
 
+    public void startShowing(HouseScreen x){
+        isShowing = true;
+        x.image = readImage();
+    }
+
+    public boolean checkShowing(){
+        return isShowing;
+    }
     public BufferedImage getImage() {
         return image;
     }

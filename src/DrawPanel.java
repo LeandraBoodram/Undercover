@@ -20,6 +20,7 @@ class DrawPanel extends JPanel implements MouseListener, KeyListener {
 
     private HouseScreen h;
 
+
     public DrawPanel() {
         this.button = new Rectangle(150, 100, 150, 25);
         this.addMouseListener(this);
@@ -35,12 +36,11 @@ class DrawPanel extends JPanel implements MouseListener, KeyListener {
         s.setStartBoxLocation(x, y);
         g.drawImage(s.getImage(), 0, 0, 900, 500, null);
         g.setFont(new Font("Courier New", Font.BOLD, 20));
-        g.drawString("Start", 150, 120);
+        g.drawString("Start", 165, 118);
         g.drawRect((int)button.getX(), (int)button.getY(), (int)button.getWidth(), (int)button.getHeight());
         player1String = "src/baseP1right";
         Player1 p = new Player1("lol", player1String);
         g.drawImage(p.getImage(), charMoveX, charMovey, 200, 100, null);
-        g.drawImage(s.getImage(), 0, 0, 900, 500, null);
         if ((h.checkShowing()) && !(s.checkShowing())){
             g.drawImage(h.getImage(), 0, 0, 900, 500, null);
         }
@@ -54,13 +54,13 @@ class DrawPanel extends JPanel implements MouseListener, KeyListener {
     }
     public void keyTyped (KeyEvent e){
 
-        char push = e.getKeyChar();
+        int push = e.getKeyCode();
 
-        if (push == 'w') {
-            changeX = -10;
+        if (push == KeyEvent.VK_W) {
+         //   changeX = -10;
             System.out.println("w");
 
-            player1String = "src/baseP1left";
+            //player1String = "src/baseP1left";
         }
 
         if (push == 'a') {

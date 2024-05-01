@@ -1,13 +1,16 @@
 import javax.imageio.ImageIO;
-import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Scanner;
 
 public class HouseScreen {
 
     private BufferedImage image;
 
+    private int recentScore;
+
+    private int newScore;
     private boolean isShowing;
     public HouseScreen (boolean show) {
         this.isShowing = show;
@@ -28,6 +31,9 @@ public class HouseScreen {
     public void stopShowing(HouseScreen x){
         isShowing = false;
         x.image = null;
+        newScore = (int) System.nanoTime();
+        newScore = (int) (newScore / 1E9);
+        System.out.println(newScore);
     }
 
     public void startShowing(HouseScreen x){

@@ -1,11 +1,9 @@
 import java.awt.event.*;
-import javax.net.ssl.HostnameVerifier;
 import javax.swing.*;
 import java.awt.Graphics;
 import java.awt.Rectangle;
-import java.awt.Point;
-import java.util.ArrayList;
 import java.awt.Font;
+import java.util.Scanner;
 
 class DrawPanel extends JPanel implements MouseListener, KeyListener {
     private Rectangle button;
@@ -19,7 +17,6 @@ class DrawPanel extends JPanel implements MouseListener, KeyListener {
     private StartScreen s;
 
     private HouseScreen h;
-
 
     public DrawPanel() {
         this.button = new Rectangle(150, 100, 150, 25);
@@ -43,7 +40,14 @@ class DrawPanel extends JPanel implements MouseListener, KeyListener {
         g.drawImage(p.getImage(), charMoveX, charMovey, 200, 100, null);
         if ((h.checkShowing()) && !(s.checkShowing())){
             g.drawImage(h.getImage(), 0, 0, 900, 500, null);
+            Scanner scan = new Scanner(System.in);
+            System.out.println("Show homescreen? ");
+            String choice = scan.nextLine();
+            if (choice.equals("no")){
+                h.stopShowing(h);
+            }
         }
+
     }
 
     public void moveChar(Graphics g){

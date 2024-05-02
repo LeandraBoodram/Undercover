@@ -3,6 +3,9 @@ import javax.swing.*;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.Font;
+import java.awt.event.KeyListener;
+import java.awt.event.KeyEvent;
+import java.util.Arrays;
 import java.util.Scanner;
 
 class DrawPanel extends JPanel implements MouseListener, KeyListener {
@@ -40,12 +43,14 @@ class DrawPanel extends JPanel implements MouseListener, KeyListener {
         g.drawImage(p.getImage(), charMoveX, charMovey, 200, 100, null);
         if ((h.checkShowing()) && !(s.checkShowing())){
             g.drawImage(h.getImage(), 0, 0, 900, 500, null);
-            Scanner scan = new Scanner(System.in);
-            System.out.println("Show homescreen? ");
-            String choice = scan.nextLine();
-            if (choice.equals("no")){
-                h.stopShowing(h);
-            }
+            g.setFont(new Font("Courier New", Font.BOLD, 20));
+            g.drawString("Player 1 uses WASD to move", 491, 31);
+            g.setFont(new Font("Courier New", Font.BOLD, 20));
+            g.drawString("Player 2 uses Arrows to move", 491, 49);
+            g.setFont(new Font("Courier New", Font.BOLD, 20));
+            g.drawString("Quit", 540, 90);
+            g.drawRect(491, 70, (int)button.getWidth(), (int)button.getHeight());
+
         }
 
     }
@@ -58,31 +63,28 @@ class DrawPanel extends JPanel implements MouseListener, KeyListener {
     }
     public void keyTyped (KeyEvent e){
 
-        int push = e.getKeyCode();
-
-        if (push == KeyEvent.VK_W) {
+        if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
          //   changeX = -10;
-            System.out.println("w");
+            System.out.println("RIGHT");
 
             //player1String = "src/baseP1left";
         }
 
-        if (push == 'a') {
+        if (e.getKeyChar() == 'a') {
             System.out.println("a");
         }
 
-        if (push == 's') {
+        if (e.getKeyChar() == 's') {
             System.out.println("s");
         }
 
-        if (push == 'd') {
+        if (e.getKeyChar() == 'd') {
             System.out.println("d");
         }
 
     }
 
     public void keyPressed(KeyEvent e) {
-
     }
 
     public void keyReleased(KeyEvent e) {

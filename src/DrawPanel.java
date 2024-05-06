@@ -1,8 +1,6 @@
+import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import java.awt.Graphics;
-import java.awt.Rectangle;
-import java.awt.Font;
 import java.awt.event.KeyListener;
 import java.awt.event.KeyEvent;
 import java.util.Arrays;
@@ -11,6 +9,7 @@ import java.util.Scanner;
 class DrawPanel extends JPanel implements MouseListener, KeyListener {
     private Rectangle button;
 
+    private Rectangle quitButton;
     private String player1String;
     private int charMoveX = 0;
     private int charMovey = 0;
@@ -23,6 +22,7 @@ class DrawPanel extends JPanel implements MouseListener, KeyListener {
 
     public DrawPanel() {
         this.button = new Rectangle(150, 100, 150, 25);
+        this.quitButton = new Rectangle(491, 70, 150, 25);
         this.addMouseListener(this);
         this.addKeyListener(this);
         s = new StartScreen(true);
@@ -33,34 +33,43 @@ class DrawPanel extends JPanel implements MouseListener, KeyListener {
         super.paintComponent(g);
         int x = 50;
         int y = 10;
-        s.setStartBoxLocation(x, y);
-        g.drawImage(s.getImage(), 0, 0, 900, 500, null);
-        g.setFont(new Font("Courier New", Font.BOLD, 20));
-        g.drawString("Start", 165, 118);
-        g.drawRect((int)button.getX(), (int)button.getY(), (int)button.getWidth(), (int)button.getHeight());
-        player1String = "src/baseP1right";
-        Player1 p = new Player1("lol", player1String);
-        g.drawImage(p.getImage(), charMoveX, charMovey, 200, 100, null);
-        if ((h.checkShowing()) && !(s.checkShowing())){
-            g.drawImage(h.getImage(), 0, 0, 900, 500, null);
+            s.setStartBoxLocation(x, y);
+            g.drawImage(s.getImage(), 0, 0, 900, 500, null);
             g.setFont(new Font("Courier New", Font.BOLD, 20));
-            g.drawString("Player 1 uses WASD to move", 491, 31);
-            g.setFont(new Font("Courier New", Font.BOLD, 20));
-            g.drawString("Player 2 uses Arrows to move", 491, 49);
-            g.setFont(new Font("Courier New", Font.BOLD, 20));
-            g.drawString("Quit", 540, 90);
-            g.drawRect(491, 70, (int)button.getWidth(), (int)button.getHeight());
+            g.drawString("Start", 165, 118);
+            g.drawRect((int) button.getX(), (int) button.getY(), (int) button.getWidth(), (int) button.getHeight());
+            player1String = "src/baseP1right";
+            Player1 p = new Player1("lol", player1String);
+            g.drawImage(p.getImage(), charMoveX, charMovey, 200, 100, null);
+            if ((h.checkShowing()) && !(s.checkShowing())) {
+                g.drawImage(h.getImage(), 0, 0, 900, 500, null);
+                g.setColor(Color.WHITE);
+                g.setFont(new Font("Courier New", Font.BOLD, 20));
+                g.drawString("Player 1 uses WASD to move", 491, 31);
+                g.setFont(new Font("Courier New", Font.BOLD, 20));
+                g.drawString("Player 2 uses Arrows to move", 491, 49);
+                g.setFont(new Font("Courier New", Font.BOLD, 20));
+                g.drawString("Quit", 540, 90);
+                g.drawRect((int) quitButton.getX(), (int) quitButton.getY(), (int) quitButton.getWidth(), (int) quitButton.getHeight());
+                if((s.checkShowing()) && !(h.checkShowing())){
+                    s.setStartBoxLocation(x, y);
+                    g.drawImage(s.getImage(), 0, 0, 900, 500, null);
+                    g.setFont(new Font("Courier New", Font.BOLD, 20));
+                    g.drawString("Start", 165, 118);
+                    g.drawRect((int) button.getX(), (int) button.getY(), (int) button.getWidth(), (int) button.getHeight());
+                    g.drawImage(p.getImage(), charMoveX, charMovey, 200, 100, null);
 
+                }
+            }
         }
 
-    }
 
-    public void moveChar(Graphics g){
-        g.fillRect(charMoveX, charMovey, 50, 20);
-        charMoveX = charMoveX + changeX;
-        charMovey = charMovey + changeY;
+    //public void moveChar(Graphics g){
+       // g.fillRect(charMoveX, charMovey, 50, 20);
+    //    charMoveX = charMoveX + changeX;
+        //charMovey = charMovey + changeY;
 
-    }
+   // }
     public void keyTyped (KeyEvent e){
 
         if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
@@ -95,6 +104,10 @@ class DrawPanel extends JPanel implements MouseListener, KeyListener {
         if((button.contains(getMousePosition()))){
             s.stopShowing(s);
             h.startShowing(h);
+        }
+        if((quitButton.contains(getMousePosition()))){
+            h.stopShowing(h);
+            s.startShowing(s);
         }
         System.out.println(getMousePosition());
     }

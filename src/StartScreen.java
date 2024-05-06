@@ -4,7 +4,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-public class StartScreen {
+public class StartScreen{
 
     private BufferedImage image;
 
@@ -34,12 +34,12 @@ public class StartScreen {
 
     public void stopShowing(StartScreen x){
         isShowing = false;
-        x.image = null;
+        image = null;
     }
 
     public void startShowing(StartScreen x){
         isShowing = true;
-        x.image = readImage();
+       image = readImage();
     }
 
     public boolean checkShowing(){

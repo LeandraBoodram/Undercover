@@ -9,9 +9,12 @@ public class Player {
     private String name;
     private int coins;
 
+    private int health;
+
     public Player(String n, String iN){
         name = n;
         this.image = readImage(iN);
+        this.health = 10;
     }
 
     public BufferedImage readImage(String imageName) {
@@ -32,4 +35,9 @@ public class Player {
     public void addCoin(){
         coins = coins + 1;
     }
+
+    public int getHealth() {
+        return health;
     }
+}
+

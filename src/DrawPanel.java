@@ -9,20 +9,22 @@ import java.util.Scanner;
 class DrawPanel extends JPanel implements MouseListener, KeyListener {
     private Rectangle button;
 
-    private Rectangle quitButton;
+    private Rectangle MenuButton;
     private String player1String;
     private int charMoveX = 0;
     private int charMovey = 0;
     private int changeX;
     private int changeY;
 
+    private Rectangle quitGameButton;
     private StartScreen s;
 
     private HouseScreen h;
 
     public DrawPanel() {
         this.button = new Rectangle(150, 100, 150, 25);
-        this.quitButton = new Rectangle(491, 70, 150, 25);
+        this.MenuButton = new Rectangle(491, 70, 150, 25);
+        this.quitGameButton = new Rectangle(516, 100, 150, 25);
         this.addMouseListener(this);
         this.addKeyListener(this);
         s = new StartScreen(true);
@@ -36,9 +38,11 @@ class DrawPanel extends JPanel implements MouseListener, KeyListener {
             s.setStartBoxLocation(x, y);
             g.drawImage(s.getImage(), 0, 0, 900, 500, null);
             g.setFont(new Font("Courier New", Font.BOLD, 20));
-            g.drawString("Start", 165, 118);
+            g.drawString("Start game", 165, 118);
             g.drawRect((int) button.getX(), (int) button.getY(), (int) button.getWidth(), (int) button.getHeight());
-            player1String = "src/baseP1right";
+        g.drawString("Quit game", 540, 118);
+        g.drawRect((int) quitGameButton.getX(), (int) quitGameButton.getY(), (int) quitGameButton.getWidth(), (int) quitGameButton.getHeight());
+        player1String = "src/baseP1right";
             Player1 p = new Player1("lol", player1String);
             g.drawImage(p.getImage(), charMoveX, charMovey, 200, 100, null);
             if ((h.checkShowing()) && !(s.checkShowing())) {
@@ -49,8 +53,8 @@ class DrawPanel extends JPanel implements MouseListener, KeyListener {
                 g.setFont(new Font("Courier New", Font.BOLD, 20));
                 g.drawString("Player 2 uses Arrows to move", 491, 49);
                 g.setFont(new Font("Courier New", Font.BOLD, 20));
-                g.drawString("Quit", 540, 90);
-                g.drawRect((int) quitButton.getX(), (int) quitButton.getY(), (int) quitButton.getWidth(), (int) quitButton.getHeight());
+                g.drawString("Menu", 540, 90);
+                g.drawRect((int) MenuButton.getX(), (int) MenuButton.getY(), (int) MenuButton.getWidth(), (int) MenuButton.getHeight());
                 if((s.checkShowing()) && !(h.checkShowing())){
                     s.setStartBoxLocation(x, y);
                     g.drawImage(s.getImage(), 0, 0, 900, 500, null);
@@ -58,8 +62,12 @@ class DrawPanel extends JPanel implements MouseListener, KeyListener {
                     g.drawString("Start", 165, 118);
                     g.drawRect((int) button.getX(), (int) button.getY(), (int) button.getWidth(), (int) button.getHeight());
                     g.drawImage(p.getImage(), charMoveX, charMovey, 200, 100, null);
-
+                    g.drawString("Quit game", 165, 118);
+                    g.drawRect((int) quitGameButton.getX(), (int) quitGameButton.getY(), (int) quitGameButton.getWidth(), (int) quitGameButton.getHeight());
                 }
+            }
+            if (p.getHealth() == 0){
+                System.exit(0);
             }
         }
 
@@ -105,9 +113,12 @@ class DrawPanel extends JPanel implements MouseListener, KeyListener {
             s.stopShowing(s);
             h.startShowing(h);
         }
-        if((quitButton.contains(getMousePosition()))){
+        if((MenuButton.contains(getMousePosition()))){
             h.stopShowing(h);
             s.startShowing(s);
+        }
+        if((quitGameButton.contains(getMousePosition()))){
+            System.exit(0);
         }
         System.out.println(getMousePosition());
     }

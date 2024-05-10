@@ -11,15 +11,14 @@ public class Player {
 
     private int health;
 
-    public Player(String n, String iN){
+    public Player(String n){
         name = n;
-        this.image = readImage(iN);
         this.health = 10;
     }
 
-    public BufferedImage readImage(String imageName) {
+    public BufferedImage readImage() {
         try {
-            image = ImageIO.read(new File(imageName));
+            image = ImageIO.read(new File("src/baseP1right"));
         }
         catch (IOException e) {
             System.out.println(e);

@@ -1,8 +1,12 @@
 import java.awt.*;
 import java.awt.event.*;
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.event.KeyListener;
 import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.net.URL;
 import java.util.Arrays;
 import java.util.Scanner;
 
@@ -10,21 +14,26 @@ class DrawPanel extends JPanel implements MouseListener, KeyListener {
     private Rectangle button;
 
     private Rectangle MenuButton;
-    private String player1String;
-    private int charMoveX = 0;
-    private int charMovey = 0;
-    private int changeX;
-    private int changeY;
+    private JLabel p1;
+    private int charX = 0;
+    private int charY = 0;
 
+    private int speed = 10;
+
+    private BufferedImage player1;
     private Rectangle quitGameButton;
     private StartScreen s;
 
+    private Player one;
     private HouseScreen h;
 
     public DrawPanel() {
         this.button = new Rectangle(150, 100, 150, 25);
         this.MenuButton = new Rectangle(491, 70, 150, 25);
         this.quitGameButton = new Rectangle(516, 100, 150, 25);
+        player1 = ImageIO.read(new File("src/baseP1right"));
+        p1 = new JLabel(new ImageIcon(player1));
+        p1.setSize(200, 100);
         this.addMouseListener(this);
         this.addKeyListener(this);
         s = new StartScreen(true);
@@ -42,9 +51,8 @@ class DrawPanel extends JPanel implements MouseListener, KeyListener {
             g.drawRect((int) button.getX(), (int) button.getY(), (int) button.getWidth(), (int) button.getHeight());
         g.drawString("Quit game", 540, 118);
         g.drawRect((int) quitGameButton.getX(), (int) quitGameButton.getY(), (int) quitGameButton.getWidth(), (int) quitGameButton.getHeight());
-        player1String = "src/baseP1right";
-            Player1 p = new Player1("lol", player1String);
-            g.drawImage(p.getImage(), charMoveX, charMovey, 200, 100, null);
+            Player p = new Player("lol");
+            g.drawImage(p.getImage(), charX, charY, 200, 100, null);
             if ((h.checkShowing()) && !(s.checkShowing())) {
                 g.drawImage(h.getImage(), 0, 0, 900, 500, null);
                 g.setColor(Color.WHITE);
@@ -55,13 +63,15 @@ class DrawPanel extends JPanel implements MouseListener, KeyListener {
                 g.setFont(new Font("Courier New", Font.BOLD, 20));
                 g.drawString("Menu", 540, 90);
                 g.drawRect((int) MenuButton.getX(), (int) MenuButton.getY(), (int) MenuButton.getWidth(), (int) MenuButton.getHeight());
+                g.drawString("Quit game", 507, 118);
+                g.drawRect((int) MenuButton.getX(), (int) quitGameButton.getY(), (int) quitGameButton.getWidth(), (int) quitGameButton.getHeight());
                 if((s.checkShowing()) && !(h.checkShowing())){
                     s.setStartBoxLocation(x, y);
                     g.drawImage(s.getImage(), 0, 0, 900, 500, null);
                     g.setFont(new Font("Courier New", Font.BOLD, 20));
                     g.drawString("Start", 165, 118);
                     g.drawRect((int) button.getX(), (int) button.getY(), (int) button.getWidth(), (int) button.getHeight());
-                    g.drawImage(p.getImage(), charMoveX, charMovey, 200, 100, null);
+                    g.drawImage(p.getImage(), charX, charY, 200, 100, null);
                     g.drawString("Quit game", 165, 118);
                     g.drawRect((int) quitGameButton.getX(), (int) quitGameButton.getY(), (int) quitGameButton.getWidth(), (int) quitGameButton.getHeight());
                 }
@@ -79,29 +89,21 @@ class DrawPanel extends JPanel implements MouseListener, KeyListener {
 
    // }
     public void keyTyped (KeyEvent e){
-
-        if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-         //   changeX = -10;
-            System.out.println("RIGHT");
-
-            //player1String = "src/baseP1left";
-        }
-
-        if (e.getKeyChar() == 'a') {
-            System.out.println("a");
-        }
-
-        if (e.getKeyChar() == 's') {
-            System.out.println("s");
-        }
-
-        if (e.getKeyChar() == 'd') {
-            System.out.println("d");
-        }
-
     }
 
     public void keyPressed(KeyEvent e) {
+
+        int pressed = e.getKeyCode();
+
+        if (pressed == KeyEvent.VK_UP)
+            charY-=speed;
+        else if (pressed == KeyEvent.VK_DOWN)
+            charY+=speed;
+        else if (pressed == KeyEvent.VK_LEFT)
+            charX-=speed;
+        else if (pressed == KeyEvent.VK_RIGHT)
+            charX+=speed;
+        p1.setLocation(charX, charY);
     }
 
     public void keyReleased(KeyEvent e) {

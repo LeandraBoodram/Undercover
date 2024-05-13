@@ -1,14 +1,9 @@
 import java.awt.*;
 import java.awt.event.*;
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.event.KeyListener;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.net.URL;
-import java.util.Arrays;
-import java.util.Scanner;
 
 class DrawPanel extends JPanel implements MouseListener, KeyListener {
     private Rectangle button;
@@ -24,6 +19,8 @@ class DrawPanel extends JPanel implements MouseListener, KeyListener {
     private Rectangle quitGameButton;
     private StartScreen s;
 
+    private LoadingScreen l;
+
     private Player one;
     private HouseScreen h;
 
@@ -31,13 +28,14 @@ class DrawPanel extends JPanel implements MouseListener, KeyListener {
         this.button = new Rectangle(150, 100, 150, 25);
         this.MenuButton = new Rectangle(491, 70, 150, 25);
         this.quitGameButton = new Rectangle(516, 100, 150, 25);
-        player1 = ImageIO.read(new File("src/baseP1right"));
-        p1 = new JLabel(new ImageIcon(player1));
-        p1.setSize(200, 100);
+        //player1 = ImageIO.read(new File("src/baseP1right"));
+        //p1 = new JLabel(new ImageIcon(player1));
+      //  p1.setSize(200, 100);
         this.addMouseListener(this);
         this.addKeyListener(this);
         s = new StartScreen(true);
         h = new HouseScreen(false);
+        l = new LoadingScreen(false);
     }
 
     protected void paintComponent(Graphics g) {

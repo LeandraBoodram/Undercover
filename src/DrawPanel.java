@@ -8,6 +8,8 @@ import java.awt.image.BufferedImage;
 class DrawPanel extends JPanel implements MouseListener, KeyListener {
     private Rectangle button;
 
+    private Rectangle loadBar;
+
     private Rectangle MenuButton;
     private JLabel p1;
     private int charX = 0;
@@ -28,6 +30,7 @@ class DrawPanel extends JPanel implements MouseListener, KeyListener {
         this.button = new Rectangle(150, 100, 150, 25);
         this.MenuButton = new Rectangle(491, 70, 150, 25);
         this.quitGameButton = new Rectangle(516, 100, 150, 25);
+        this.loadBar = new Rectangle(327, 210, 280, 25);
         //player1 = ImageIO.read(new File("src/baseP1right"));
         //p1 = new JLabel(new ImageIcon(player1));
       //  p1.setSize(200, 100);
@@ -51,19 +54,29 @@ class DrawPanel extends JPanel implements MouseListener, KeyListener {
         g.drawRect((int) quitGameButton.getX(), (int) quitGameButton.getY(), (int) quitGameButton.getWidth(), (int) quitGameButton.getHeight());
             Player p = new Player("lol");
             g.drawImage(p.getImage(), charX, charY, 200, 100, null);
-            if ((h.checkShowing()) && !(s.checkShowing())) {
-                g.drawImage(h.getImage(), 0, 0, 900, 500, null);
-                g.setColor(Color.WHITE);
-                g.setFont(new Font("Courier New", Font.BOLD, 20));
-                g.drawString("Player 1 uses WASD to move", 491, 31);
-                g.setFont(new Font("Courier New", Font.BOLD, 20));
-                g.drawString("Player 2 uses Arrows to move", 491, 49);
-                g.setFont(new Font("Courier New", Font.BOLD, 20));
-                g.drawString("Menu", 540, 90);
-                g.drawRect((int) MenuButton.getX(), (int) MenuButton.getY(), (int) MenuButton.getWidth(), (int) MenuButton.getHeight());
-                g.drawString("Quit game", 507, 118);
-                g.drawRect((int) MenuButton.getX(), (int) quitGameButton.getY(), (int) quitGameButton.getWidth(), (int) quitGameButton.getHeight());
-                if((s.checkShowing()) && !(h.checkShowing())){
+        if ((l.checkShowing()) && !(s.checkShowing())) {
+            g.drawImage(l.getImage(), 0, 0, 900, 500, null);
+            g.setColor(Color.WHITE);
+            g.setFont(new Font("Courier New", Font.BOLD, 30));
+            g.drawString("Loading...", 395, 171);
+            g.drawRect((int) loadBar.getX(), (int) loadBar.getY(), (int) loadBar.getWidth(), (int) loadBar.getHeight());
+
+            if(l.getFullTime() == 5){
+                l.stopShowing(l);
+                h.startShowing(h);
+            }
+        }
+        if ((l.checkShowing()) && !(h.checkShowing())) {
+            g.drawImage(l.getImage(), 0, 0, 900, 500, null);
+            g.setColor(Color.WHITE);
+            g.setFont(new Font("Courier New", Font.BOLD, 30));
+            g.drawString("Loading...", 395, 171);
+            g.drawRect((int) loadBar.getX(), (int) loadBar.getY(), (int) loadBar.getWidth(), (int) loadBar.getHeight());
+            if(l.getFullTime() == 5){
+                l.stopShowing(l);
+                h.stopShowing(h);
+                s.startShowing(s);
+                if((s.checkShowing()) && !(h.checkShowing()) && !(l.checkShowing())){
                     s.setStartBoxLocation(x, y);
                     g.drawImage(s.getImage(), 0, 0, 900, 500, null);
                     g.setFont(new Font("Courier New", Font.BOLD, 20));
@@ -74,9 +87,27 @@ class DrawPanel extends JPanel implements MouseListener, KeyListener {
                     g.drawRect((int) quitGameButton.getX(), (int) quitGameButton.getY(), (int) quitGameButton.getWidth(), (int) quitGameButton.getHeight());
                 }
             }
+        }
+        if ((h.checkShowing()) && !(s.checkShowing()) && !(l.checkShowing())) {
+            g.drawImage(h.getImage(), 0, 0, 900, 500, null);
+            g.setColor(Color.WHITE);
+            g.setFont(new Font("Courier New", Font.BOLD, 20));
+            g.drawString("Player 1 uses WASD to move", 491, 31);
+            g.setFont(new Font("Courier New", Font.BOLD, 20));
+            g.drawString("Player 2 uses Arrows to move", 491, 49);
+            g.setFont(new Font("Courier New", Font.BOLD, 20));
+            g.drawString("Menu", 540, 90);
+            g.drawRect((int) MenuButton.getX(), (int) MenuButton.getY(), (int) MenuButton.getWidth(), (int) MenuButton.getHeight());
+            g.drawString("Quit game", 507, 118);
+            g.drawRect((int) MenuButton.getX(), (int) quitGameButton.getY(), (int) quitGameButton.getWidth(), (int) quitGameButton.getHeight());
+
+            }
+
             if (p.getHealth() == 0){
                 System.exit(0);
             }
+
+
         }
 
 
@@ -111,11 +142,11 @@ class DrawPanel extends JPanel implements MouseListener, KeyListener {
     public void mousePressed(MouseEvent e) {
         if((button.contains(getMousePosition()))){
             s.stopShowing(s);
-            h.startShowing(h);
+            l.startShowing(l);
         }
         if((MenuButton.contains(getMousePosition()))){
             h.stopShowing(h);
-            s.startShowing(s);
+            l.startShowing(l);
         }
         if((quitGameButton.contains(getMousePosition()))){
             System.exit(0);

@@ -8,14 +8,15 @@ public class LoadingScreen {
 
     private BufferedImage image;
 
-    private Rectangle startBox;
+    private int oldTime;
+    private int newTime;
 
+    private int fullTime;
     private boolean highlight;
 
     private boolean isShowing;
 
     public LoadingScreen(boolean show) {
-        this.startBox = new Rectangle(-100, -100);
         this.highlight = false;
         this.image = readImage();
         this.isShowing = show;
@@ -24,25 +25,44 @@ public class LoadingScreen {
     public BufferedImage readImage() {
         try {
             image = ImageIO.read(new File("src/loading.png"));
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             System.out.println(e);
             return null;
         }
         return image;
     }
 
-    public void stopShowing(LoadingScreen x){
+    public void stopShowing(LoadingScreen x) {
         isShowing = false;
         image = null;
     }
 
-    public void startShowing(LoadingScreen x){
+
+    public void startShowing(LoadingScreen x) {
         isShowing = true;
         image = readImage();
+        newTime = (int) System.currentTimeMillis();
     }
 
-    public boolean checkShowing(){
+
+    public int getFullTime(){
+        oldTime = (int) System.currentTimeMillis();
+        fullTime = oldTime - newTime;
+        fullTime = (int) (fullTime / 1000F);
+     //   System.out.println(fullTime);
+        return fullTime;
+    }
+
+    public BufferedImage getImage() {
+        return image;
+    }
+
+
+    public boolean checkShowing() {
         return isShowing;
     }
+
+  //  public  progressLoad(){
+    //    int
+  //  }
 }

@@ -10,6 +10,9 @@ public class HouseScreen{
 
     private int recentScore;
 
+    private int oldTime;
+    private int newTime;
+
     private int newScore;
     private boolean isShowing;
     public HouseScreen (boolean show) {
@@ -31,14 +34,16 @@ public class HouseScreen{
     public void stopShowing(HouseScreen x){
         isShowing = false;
         x.image = null;
-        newScore = (int) System.nanoTime();
-        newScore = (int) (newScore / 1E9);
+        oldTime = (int) System.currentTimeMillis();
+        newScore = oldTime - newTime;
+        newScore = (int) (newScore / 1000F);
         System.out.println(newScore);
     }
 
     public void startShowing(HouseScreen x){
         isShowing = true;
         x.image = readImage();
+        newTime = (int) System.currentTimeMillis();
     }
 
     public boolean checkShowing(){

@@ -54,39 +54,79 @@ class DrawPanel extends JPanel implements MouseListener, KeyListener {
         g.drawRect((int) quitGameButton.getX(), (int) quitGameButton.getY(), (int) quitGameButton.getWidth(), (int) quitGameButton.getHeight());
             Player p = new Player("lol");
             g.drawImage(p.getImage(), charX, charY, 200, 100, null);
-        if ((l.checkShowing()) && !(s.checkShowing())) {
+        if ((l.checkShowing()) && !(h.checkShowing()) && (s.checkShowing())){
             g.drawImage(l.getImage(), 0, 0, 900, 500, null);
             g.setColor(Color.WHITE);
             g.setFont(new Font("Courier New", Font.BOLD, 30));
             g.drawString("Loading...", 395, 171);
             g.drawRect((int) loadBar.getX(), (int) loadBar.getY(), (int) loadBar.getWidth(), (int) loadBar.getHeight());
 
-            if(l.getFullTime() == 5){
-                l.stopShowing(l);
-                h.startShowing(h);
+            if (l.getFullTime() == 1){
+                g.fillRect((int) loadBar.getX(), (int) loadBar.getY(), 50, (int) loadBar.getHeight());
             }
+            if (l.getFullTime() == 2){
+                g.fillRect((int) loadBar.getX(), (int) loadBar.getY(),100, (int) loadBar.getHeight());
+            }
+            if (l.getFullTime() == 3){
+                g.fillRect((int) loadBar.getX(), (int) loadBar.getY(),150, (int) loadBar.getHeight());
+            }
+            if (l.getFullTime() == 4){
+                g.fillRect((int) loadBar.getX(), (int) loadBar.getY(), 200, (int) loadBar.getHeight());
+            }
+            if (l.getFullTime() == 5){
+                g.fillRect((int) loadBar.getX(), (int) loadBar.getY(), 250, (int) loadBar.getHeight());
+            }
+            if (l.getFullTime() == 6){
+                g.fillRect((int) loadBar.getX(), (int) loadBar.getY(), 280, (int) loadBar.getHeight());
+            }
+            if ((l.getFullTime() == 7) && !(h.checkShowing())){
+                l.stopShowing(l);
+                s.startShowing(s);
+                System.out.println("hello");
+            }
+
         }
-        if ((l.checkShowing()) && !(h.checkShowing())) {
+        if ((l.checkShowing()) && !(s.checkShowing()) && h.checkShowing()){
             g.drawImage(l.getImage(), 0, 0, 900, 500, null);
             g.setColor(Color.WHITE);
             g.setFont(new Font("Courier New", Font.BOLD, 30));
             g.drawString("Loading...", 395, 171);
             g.drawRect((int) loadBar.getX(), (int) loadBar.getY(), (int) loadBar.getWidth(), (int) loadBar.getHeight());
-            if(l.getFullTime() == 5){
-                l.stopShowing(l);
-                h.stopShowing(h);
-                s.startShowing(s);
-                if((s.checkShowing()) && !(h.checkShowing()) && !(l.checkShowing())){
-                    s.setStartBoxLocation(x, y);
-                    g.drawImage(s.getImage(), 0, 0, 900, 500, null);
-                    g.setFont(new Font("Courier New", Font.BOLD, 20));
-                    g.drawString("Start", 165, 118);
-                    g.drawRect((int) button.getX(), (int) button.getY(), (int) button.getWidth(), (int) button.getHeight());
-                    g.drawImage(p.getImage(), charX, charY, 200, 100, null);
-                    g.drawString("Quit game", 165, 118);
-                    g.drawRect((int) quitGameButton.getX(), (int) quitGameButton.getY(), (int) quitGameButton.getWidth(), (int) quitGameButton.getHeight());
-                }
+            if (l.getFullTime() == 1){
+                g.fillRect((int) loadBar.getX(), (int) loadBar.getY(), 50, (int) loadBar.getHeight());
             }
+            if (l.getFullTime() == 2){
+                g.fillRect((int) loadBar.getX(), (int) loadBar.getY(),100, (int) loadBar.getHeight());
+            }
+            if (l.getFullTime() == 3){
+                g.fillRect((int) loadBar.getX(), (int) loadBar.getY(),150, (int) loadBar.getHeight());
+            }
+            if (l.getFullTime() == 4){
+                g.fillRect((int) loadBar.getX(), (int) loadBar.getY(), 200, (int) loadBar.getHeight());
+            }
+            if (l.getFullTime() == 5){
+                g.fillRect((int) loadBar.getX(), (int) loadBar.getY(), 250, (int) loadBar.getHeight());
+            }
+            if (l.getFullTime() == 6){
+                g.fillRect((int) loadBar.getX(), (int) loadBar.getY(), 280, (int) loadBar.getHeight());
+            }
+
+            if ((l.getFullTime() == 7) && !(s.checkShowing())) {
+                l.stopShowing(l);
+                h.startShowing(h);
+                System.out.println("lol");
+            }
+        }
+
+        if((s.checkShowing()) && !(h.checkShowing()) && !(l.checkShowing())){
+            s.setStartBoxLocation(x, y);
+            g.drawImage(s.getImage(), 0, 0, 900, 500, null);
+            g.setFont(new Font("Courier New", Font.BOLD, 20));
+            g.drawString("Start", 165, 118);
+            g.drawRect((int) button.getX(), (int) button.getY(), (int) button.getWidth(), (int) button.getHeight());
+            g.drawImage(p.getImage(), charX, charY, 200, 100, null);
+            g.drawString("Quit game", 540, 118);
+            g.drawRect((int) quitGameButton.getX(), (int) quitGameButton.getY(), (int) quitGameButton.getWidth(), (int) quitGameButton.getHeight());
         }
         if ((h.checkShowing()) && !(s.checkShowing()) && !(l.checkShowing())) {
             g.drawImage(h.getImage(), 0, 0, 900, 500, null);
@@ -142,10 +182,12 @@ class DrawPanel extends JPanel implements MouseListener, KeyListener {
     public void mousePressed(MouseEvent e) {
         if((button.contains(getMousePosition()))){
             s.stopShowing(s);
+            h.startShowing(h);
             l.startShowing(l);
         }
         if((MenuButton.contains(getMousePosition()))){
             h.stopShowing(h);
+            s.startShowing(s);
             l.startShowing(l);
         }
         if((quitGameButton.contains(getMousePosition()))){

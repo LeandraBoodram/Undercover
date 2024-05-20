@@ -26,6 +26,8 @@ class DrawPanel extends JPanel implements MouseListener, KeyListener {
     private Player one;
     private HouseScreen h;
 
+    private Text t;
+
     public DrawPanel() {
         this.button = new Rectangle(150, 100, 150, 25);
         this.MenuButton = new Rectangle(491, 70, 150, 25);
@@ -34,8 +36,10 @@ class DrawPanel extends JPanel implements MouseListener, KeyListener {
         //player1 = ImageIO.read(new File("src/baseP1right"));
         //p1 = new JLabel(new ImageIcon(player1));
       //  p1.setSize(200, 100);
+        t = new Text(true);
         this.addMouseListener(this);
         this.addKeyListener(this);
+        this.setFocusable(true);
         s = new StartScreen(true);
         h = new HouseScreen(false);
         l = new LoadingScreen(false);
@@ -130,6 +134,8 @@ class DrawPanel extends JPanel implements MouseListener, KeyListener {
         }
         if ((h.checkShowing()) && !(s.checkShowing()) && !(l.checkShowing())) {
             g.drawImage(h.getImage(), 0, 0, 900, 500, null);
+            g.drawImage(t.getImage(), 100, 300, 700, 150, null);
+            t.textOne(g);
             g.setColor(Color.WHITE);
             g.setFont(new Font("Courier New", Font.BOLD, 20));
             g.drawString("Player 1 uses WASD to move", 491, 31);
@@ -180,6 +186,9 @@ class DrawPanel extends JPanel implements MouseListener, KeyListener {
     }
 
     public void mousePressed(MouseEvent e) {
+        if ((h.checkShowing()) && (mouseClicked()) && (t.getPlayed() != 1){
+
+        }
         if((button.contains(getMousePosition()))){
             s.stopShowing(s);
             h.startShowing(h);

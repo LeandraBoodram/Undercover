@@ -11,9 +11,12 @@ public class Player {
 
     private int health;
 
+    private boolean move;
+
     public Player(String n){
         name = n;
-        this.health = 10;
+        health = 10;
+        move = false;
     }
 
     public BufferedImage readImage() {
@@ -29,6 +32,19 @@ public class Player {
 
     public BufferedImage getImage(){
         return image;
+    }
+
+    private boolean canMove(){
+        return move;
+    }
+
+    private void startMove(){
+        move = true;
+        //when movement is implemented create a condition where the player can onl move when this is called as the opening wont allow them to move
+    }
+
+    private void stopMove(){
+        move = false;
     }
 
     public void addCoin(){

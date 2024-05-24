@@ -28,6 +28,8 @@ class DrawPanel extends JPanel implements MouseListener, KeyListener {
 
     private Text t;
 
+    private Graphics g;
+
     public DrawPanel() {
         this.button = new Rectangle(150, 100, 150, 25);
         this.MenuButton = new Rectangle(491, 70, 150, 25);
@@ -46,6 +48,7 @@ class DrawPanel extends JPanel implements MouseListener, KeyListener {
     }
 
     protected void paintComponent(Graphics g) {
+        this.g = g;
         super.paintComponent(g);
         int x = 50;
         int y = 10;
@@ -186,8 +189,8 @@ class DrawPanel extends JPanel implements MouseListener, KeyListener {
     }
 
     public void mousePressed(MouseEvent e) {
-        if ((h.checkShowing()) && (mouseClicked()) && (t.getPlayed() != 1){
-
+        if ((h.checkShowing()) && (t.getPlayed() != 1)){
+            t.textTwo(g);
         }
         if((button.contains(getMousePosition()))){
             s.stopShowing(s);

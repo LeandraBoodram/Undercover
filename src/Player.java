@@ -9,19 +9,28 @@ public class Player {
     private String name;
     private int coins;
 
+    private int speed = 10;
+
     private int health;
 
     private boolean move;
 
-    public Player(String n){
+    private int currentX;
+
+    private int currentY;
+
+    public Player(String n, int x, int y, String imageName){
         name = n;
         health = 10;
+        this.image = readImage(imageName);
         move = false;
+        this.currentX = x;
+        this.currentY = y;
     }
 
-    public BufferedImage readImage() {
+    public BufferedImage readImage(String iN) {
         try {
-            image = ImageIO.read(new File("src/baseP1right"));
+            image = ImageIO.read(new File(iN));
         }
         catch (IOException e) {
             System.out.println(e);
@@ -54,5 +63,28 @@ public class Player {
     public int getHealth() {
         return health;
     }
+
+    public void setLocation(int x, int y) {
+        currentX = x;
+        currentY = y;
+
+    }
+
+    public void moveUp(){
+        currentY -= speed;
+    }
+
+    public void moveDown(){
+        currentY += speed;
+    }
+
+    public void moveLeft(){
+        currentX -= speed;
+    }
+
+    public void moveRight(){
+        currentX += speed;
+    }
+
 }
 

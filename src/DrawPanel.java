@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.event.KeyListener;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 class DrawPanel extends JPanel implements MouseListener, KeyListener {
     private Rectangle button;
@@ -11,19 +12,25 @@ class DrawPanel extends JPanel implements MouseListener, KeyListener {
     private Rectangle loadBar;
 
     private Rectangle MenuButton;
-    private JLabel p1;
-    private int charX = 0;
-    private int charY = 0;
+
+    private ArrayList<Boolean> press;
+
+    private int charX = 156;
+    private int charY = 85;
+
+    private int char2X = 170;
+    private int char2Y = 85;
 
     private int speed = 10;
 
-    private BufferedImage player1;
     private Rectangle quitGameButton;
     private StartScreen s;
 
     private LoadingScreen l;
 
     private Player one;
+
+    private Player two;
     private HouseScreen h;
 
     private Text t;
@@ -31,13 +38,12 @@ class DrawPanel extends JPanel implements MouseListener, KeyListener {
     private Graphics g;
 
     public DrawPanel() {
+        this.one = new Player("lol", charX, charY, "src/baseP1right");
+        this.two = new Player("lolTwo", char2X, char2Y, "src/baseP1left");
         this.button = new Rectangle(150, 100, 150, 25);
         this.MenuButton = new Rectangle(491, 70, 150, 25);
         this.quitGameButton = new Rectangle(516, 100, 150, 25);
         this.loadBar = new Rectangle(327, 210, 280, 25);
-        //player1 = ImageIO.read(new File("src/baseP1right"));
-        //p1 = new JLabel(new ImageIcon(player1));
-      //  p1.setSize(200, 100);
         t = new Text(true);
         this.addMouseListener(this);
         this.addKeyListener(this);
@@ -45,9 +51,19 @@ class DrawPanel extends JPanel implements MouseListener, KeyListener {
         s = new StartScreen(true);
         h = new HouseScreen(false);
         l = new LoadingScreen(false);
+        press.add(false); //up
+        press.add(false); //down
+        press.add(false); //left
+        press.add(false); //right
+        press.add(false); //w
+        press.add(false); //s
+        press.add(false); //a
+        press.add(false); //d
     }
 
     protected void paintComponent(Graphics g) {
+        // based on which buttons are being pressed, move the character appropriately
+        //make a arraylist of booleans where each index correspond to a boolean
         this.g = g;
         super.paintComponent(g);
         int x = 50;
@@ -59,8 +75,33 @@ class DrawPanel extends JPanel implements MouseListener, KeyListener {
             g.drawRect((int) button.getX(), (int) button.getY(), (int) button.getWidth(), (int) button.getHeight());
         g.drawString("Quit game", 540, 118);
         g.drawRect((int) quitGameButton.getX(), (int) quitGameButton.getY(), (int) quitGameButton.getWidth(), (int) quitGameButton.getHeight());
-            Player p = new Player("lol");
-            g.drawImage(p.getImage(), charX, charY, 200, 100, null);
+            g.drawImage(one.getImage(), charX, charY, 200, 100, null);
+        g.drawImage(two.getImage(), char2X, char2Y, 200, 100, null);
+        if (press.get(0)){
+            one.moveUp();
+        }
+        if (press.get(1)){
+            one.moveDown();
+        }
+
+        if (press.get(2)){
+            one.moveLeft();
+        }
+        if (press.get(3)){
+            one.moveRight();
+        }
+        if (press.get(4)){
+            two.moveUp();
+        }
+        if (press.get(5)){
+            two.moveDown();
+        }
+        if (press.get(6)){
+            two.moveLeft();
+        }
+        if (press.get(7)){
+            two.moveRight();
+        }
         if ((l.checkShowing()) && !(h.checkShowing()) && (s.checkShowing())){
             g.drawImage(l.getImage(), 0, 0, 900, 500, null);
             g.setColor(Color.WHITE);
@@ -131,9 +172,11 @@ class DrawPanel extends JPanel implements MouseListener, KeyListener {
             g.setFont(new Font("Courier New", Font.BOLD, 20));
             g.drawString("Start", 165, 118);
             g.drawRect((int) button.getX(), (int) button.getY(), (int) button.getWidth(), (int) button.getHeight());
-            g.drawImage(p.getImage(), charX, charY, 200, 100, null);
+            g.drawImage(one.getImage(), charX, charY, 200, 100, null);
             g.drawString("Quit game", 540, 118);
             g.drawRect((int) quitGameButton.getX(), (int) quitGameButton.getY(), (int) quitGameButton.getWidth(), (int) quitGameButton.getHeight());
+            g.drawImage(one.getImage(), charX, charY, 200, 100, null);
+            g.drawImage(two.getImage(), char2X, char2Y, 200, 100, null);
         }
         if ((h.checkShowing()) && !(s.checkShowing()) && !(l.checkShowing())) {
             g.drawImage(h.getImage(), 0, 0, 900, 500, null);
@@ -149,10 +192,11 @@ class DrawPanel extends JPanel implements MouseListener, KeyListener {
             g.drawRect((int) MenuButton.getX(), (int) MenuButton.getY(), (int) MenuButton.getWidth(), (int) MenuButton.getHeight());
             g.drawString("Quit game", 507, 118);
             g.drawRect((int) MenuButton.getX(), (int) quitGameButton.getY(), (int) quitGameButton.getWidth(), (int) quitGameButton.getHeight());
-
+            g.drawImage(one.getImage(), charX, charY, 200, 100, null);
+            g.drawImage(two.getImage(), char2X, char2Y, 200, 100, null);
             }
 
-            if (p.getHealth() == 0){
+            if (one.getHealth() == 0){
                 System.exit(0);
             }
 
@@ -160,12 +204,6 @@ class DrawPanel extends JPanel implements MouseListener, KeyListener {
         }
 
 
-    //public void moveChar(Graphics g){
-       // g.fillRect(charMoveX, charMovey, 50, 20);
-    //    charMoveX = charMoveX + changeX;
-        //charMovey = charMovey + changeY;
-
-   // }
     public void keyTyped (KeyEvent e){
     }
 
@@ -173,19 +211,40 @@ class DrawPanel extends JPanel implements MouseListener, KeyListener {
 
         int pressed = e.getKeyCode();
 
-        if (pressed == KeyEvent.VK_UP)
-            charY-=speed;
-        else if (pressed == KeyEvent.VK_DOWN)
-            charY+=speed;
-        else if (pressed == KeyEvent.VK_LEFT)
-            charX-=speed;
-        else if (pressed == KeyEvent.VK_RIGHT)
-            charX+=speed;
-        p1.setLocation(charX, charY);
+        if (pressed == KeyEvent.VK_UP) {
+            press.set(0, true);
+
+        }
+        if (pressed == KeyEvent.VK_DOWN) {
+            press.set(1, true);
+        }
+        if (pressed == KeyEvent.VK_LEFT) {
+            press.set(2, true);
+        }
+        if (pressed == KeyEvent.VK_RIGHT) {
+            press.set(3, true);
+        }
+
+        if (pressed == KeyEvent.VK_W) {
+            press.set(4, true);
+        }
+        if (pressed == KeyEvent.VK_S) {
+            press.set(5, true);
+        }
+        if (pressed == KeyEvent.VK_A) {
+            press.set(6, true);
+        }
+        if (pressed == KeyEvent.VK_D) {
+            press.set(7, true);
+        }
+
     }
 
     public void keyReleased(KeyEvent e) {
-
+        int pressed = e.getKeyCode();
+        if (pressed == KeyEvent.VK_UP) {
+            press.set(0, false);
+        }
     }
 
     public void mousePressed(MouseEvent e) {

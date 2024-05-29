@@ -15,11 +15,6 @@ class DrawPanel extends JPanel implements MouseListener, KeyListener {
 
     private ArrayList<Boolean> press;
 
-    private int charX = 156;
-    private int charY = 85;
-
-    private int char2X = 170;
-    private int char2Y = 85;
 
     private int speed = 10;
 
@@ -38,8 +33,8 @@ class DrawPanel extends JPanel implements MouseListener, KeyListener {
     private Graphics g;
 
     public DrawPanel() {
-        this.one = new Player("lol", charX, charY, "src/baseP1right");
-        this.two = new Player("lolTwo", char2X, char2Y, "src/baseP1left");
+        this.one = new Player("lol", 156, 85, "src/baseP1right");
+        this.two = new Player("lolTwo", 170, 85, "src/baseP1left");
         this.button = new Rectangle(150, 100, 150, 25);
         this.MenuButton = new Rectangle(491, 70, 150, 25);
         this.quitGameButton = new Rectangle(516, 100, 150, 25);
@@ -51,6 +46,7 @@ class DrawPanel extends JPanel implements MouseListener, KeyListener {
         s = new StartScreen(true);
         h = new HouseScreen(false);
         l = new LoadingScreen(false);
+        this.press = new ArrayList<Boolean>();
         press.add(false); //up
         press.add(false); //down
         press.add(false); //left
@@ -75,32 +71,40 @@ class DrawPanel extends JPanel implements MouseListener, KeyListener {
             g.drawRect((int) button.getX(), (int) button.getY(), (int) button.getWidth(), (int) button.getHeight());
         g.drawString("Quit game", 540, 118);
         g.drawRect((int) quitGameButton.getX(), (int) quitGameButton.getY(), (int) quitGameButton.getWidth(), (int) quitGameButton.getHeight());
-            g.drawImage(one.getImage(), charX, charY, 200, 100, null);
-        g.drawImage(two.getImage(), char2X, char2Y, 200, 100, null);
+            g.drawImage(one.getImage(), one.getCurrentX(), one.getCurrentY(), 200, 100, null);
+        g.drawImage(two.getImage(), two.getCurrentX(), two.getCurrentY(), 200, 100, null);
         if (press.get(0)){
             one.moveUp();
+            System.out.println(one.getCurrentY());
         }
         if (press.get(1)){
             one.moveDown();
+            System.out.println(one.getCurrentY());
         }
 
         if (press.get(2)){
             one.moveLeft();
+            System.out.println(one.getCurrentX());
         }
         if (press.get(3)){
             one.moveRight();
+            System.out.println(one.getCurrentX());
         }
         if (press.get(4)){
             two.moveUp();
+            System.out.println(two.getCurrentY());
         }
         if (press.get(5)){
             two.moveDown();
+            System.out.println(two.getCurrentY());
         }
         if (press.get(6)){
             two.moveLeft();
+            System.out.println(two.getCurrentX());
         }
         if (press.get(7)){
             two.moveRight();
+            System.out.println(two.getCurrentX());
         }
         if ((l.checkShowing()) && !(h.checkShowing()) && (s.checkShowing())){
             g.drawImage(l.getImage(), 0, 0, 900, 500, null);
@@ -172,11 +176,10 @@ class DrawPanel extends JPanel implements MouseListener, KeyListener {
             g.setFont(new Font("Courier New", Font.BOLD, 20));
             g.drawString("Start", 165, 118);
             g.drawRect((int) button.getX(), (int) button.getY(), (int) button.getWidth(), (int) button.getHeight());
-            g.drawImage(one.getImage(), charX, charY, 200, 100, null);
             g.drawString("Quit game", 540, 118);
             g.drawRect((int) quitGameButton.getX(), (int) quitGameButton.getY(), (int) quitGameButton.getWidth(), (int) quitGameButton.getHeight());
-            g.drawImage(one.getImage(), charX, charY, 200, 100, null);
-            g.drawImage(two.getImage(), char2X, char2Y, 200, 100, null);
+            g.drawImage(one.getImage(), one.getCurrentX(), one.getCurrentY(), 200, 100, null);
+            g.drawImage(two.getImage(), two.getCurrentX(), two.getCurrentY(), 200, 100, null);
         }
         if ((h.checkShowing()) && !(s.checkShowing()) && !(l.checkShowing())) {
             g.drawImage(h.getImage(), 0, 0, 900, 500, null);
@@ -184,16 +187,16 @@ class DrawPanel extends JPanel implements MouseListener, KeyListener {
             t.textOne(g);
             g.setColor(Color.WHITE);
             g.setFont(new Font("Courier New", Font.BOLD, 20));
-            g.drawString("Player 1 uses WASD to move", 491, 31);
+            g.drawString("Player 1 uses Arrows to move", 491, 31);
             g.setFont(new Font("Courier New", Font.BOLD, 20));
-            g.drawString("Player 2 uses Arrows to move", 491, 49);
+            g.drawString("Player 2 uses WASD to move", 491, 49);
             g.setFont(new Font("Courier New", Font.BOLD, 20));
             g.drawString("Menu", 540, 90);
             g.drawRect((int) MenuButton.getX(), (int) MenuButton.getY(), (int) MenuButton.getWidth(), (int) MenuButton.getHeight());
             g.drawString("Quit game", 507, 118);
             g.drawRect((int) MenuButton.getX(), (int) quitGameButton.getY(), (int) quitGameButton.getWidth(), (int) quitGameButton.getHeight());
-            g.drawImage(one.getImage(), charX, charY, 200, 100, null);
-            g.drawImage(two.getImage(), char2X, char2Y, 200, 100, null);
+            g.drawImage(one.getImage(), one.getCurrentX(), one.getCurrentY(), 200, 100, null);
+            g.drawImage(two.getImage(), two.getCurrentX(), two.getCurrentY(), 200, 100, null);
             }
 
             if (one.getHealth() == 0){
@@ -244,6 +247,29 @@ class DrawPanel extends JPanel implements MouseListener, KeyListener {
         int pressed = e.getKeyCode();
         if (pressed == KeyEvent.VK_UP) {
             press.set(0, false);
+        }
+
+        if (pressed == KeyEvent.VK_DOWN) {
+            press.set(1, false);
+        }
+        if (pressed == KeyEvent.VK_LEFT) {
+            press.set(2, false);
+        }
+        if (pressed == KeyEvent.VK_RIGHT) {
+            press.set(3, false);
+        }
+
+        if (pressed == KeyEvent.VK_W) {
+            press.set(4, false);
+        }
+        if (pressed == KeyEvent.VK_S) {
+            press.set(5, false);
+        }
+        if (pressed == KeyEvent.VK_A) {
+            press.set(6, false);
+        }
+        if (pressed == KeyEvent.VK_D) {
+            press.set(7, false);
         }
     }
 

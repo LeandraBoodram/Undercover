@@ -9,7 +9,7 @@ public class Player {
     private String name;
     private int coins;
 
-    private int speed = 10;
+    private int speed = 2;
 
     private int health;
 
@@ -71,20 +71,36 @@ public class Player {
     }
 
     public void moveUp(){
-        currentY -= speed;
+        if (currentY > 0 ) {
+            currentY -= speed;
+        }
     }
 
     public void moveDown(){
-        currentY += speed;
+        if (currentY < 350) {
+            currentY += speed;
+        }
     }
 
     public void moveLeft(){
-        currentX -= speed;
+        if (currentX > 0) {
+            currentX -= speed;
+        }
     }
 
     public void moveRight(){
-        currentX += speed;
+        if (currentX < 740) { //specific number because only the left side is accounted for the sprite position and each sprite has a different amount of pixels
+            currentX += speed;
+        }
     }
+
+    public int getCurrentX(){
+        return currentX;
+    }
+    public int getCurrentY(){
+        return currentY;
+    }
+
 
 }
 

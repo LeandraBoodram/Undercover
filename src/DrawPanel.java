@@ -33,8 +33,8 @@ class DrawPanel extends JPanel implements MouseListener, KeyListener {
     private Graphics g;
 
     public DrawPanel() {
-        this.one = new Player("lol", 156, 85, "src/baseP1right");
-        this.two = new Player("lolTwo", 170, 85, "src/baseP1left");
+        this.one = new Player("lol", 156, 85, "src/baseP1right.png");
+        this.two = new Player("lolTwo", 170, 85, "src/baseP1left.png");
         this.button = new Rectangle(150, 100, 150, 25);
         this.MenuButton = new Rectangle(491, 70, 150, 25);
         this.quitGameButton = new Rectangle(516, 100, 150, 25);

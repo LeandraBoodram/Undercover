@@ -9,6 +9,10 @@ public class Player {
     private String name;
     private int coins;
 
+    private String direction;
+
+    private boolean attack;
+
     private int speed = 2;
 
     private int health;
@@ -73,24 +77,30 @@ public class Player {
     public void moveUp(){
         if (currentY > 0 ) {
             currentY -= speed;
+            direction = "up";
         }
     }
 
     public void moveDown(){
         if (currentY < 350) {
             currentY += speed;
+            direction = "down";
         }
     }
 
     public void moveLeft(){
         if (currentX > 0) {
+            readImage("src/baseP1left.png");
             currentX -= speed;
+            direction = "left";
         }
     }
 
     public void moveRight(){
         if (currentX < 740) { //specific number because only the left side is accounted for the sprite position and each sprite has a different amount of pixels
+           readImage("src/baseP1Right.png");
             currentX += speed;
+            direction = "right";
         }
     }
 
@@ -101,6 +111,17 @@ public class Player {
         return currentY;
     }
 
+    public void attackOn(){
+        attack = true;
+    }
+
+    public void attackOff(){
+        attack = false;
+    }
+
+    public boolean getAttack(){
+        return attack;
+    }
 
 }
 

@@ -62,7 +62,4 @@ public class LoadingScreen {
         return isShowing;
     }
 
-  //  public  progressLoad(){
-    //    int
-  //  }
 }

@@ -9,6 +9,8 @@ public class Bullet {
 
     private boolean move;
 
+    private String iN;
+
     private boolean isVisible;
 
     private int currentX;
@@ -18,11 +20,12 @@ public class Bullet {
 
     private BufferedImage image;
 
-    private Bullet (Player p){
+    public Bullet (Player p){
         currentX = p.getCurrentX();
         currentY = p.getCurrentY();
+        iN = "src/bulletUp.png";
     }
-    public BufferedImage readImage(String iN) {
+    public BufferedImage readImage() {
         try {
             image = ImageIO.read(new File(iN));
         }
@@ -32,6 +35,7 @@ public class Bullet {
         }
         return image;
     }
+
 
     public BufferedImage getImage(){
         return image;
@@ -69,28 +73,28 @@ public class Bullet {
 
     public void moveUp(){
         if (currentY > 0 ) {
-            readImage("src/bulletUp.png");
+            iN ="src/bulletUp.png";
             currentY -= speed;
         }
     }
 
     public void moveDown(){
         if (currentY < 350) {
-            readImage("src/bulletDown.png");
+            iN = "src/bulletDown.png";
             currentY += speed;
         }
     }
 
-    public void moveLeft(){ //if char is facing right
+    public void moveLeft(){ //if char is facing left
         if (currentX > 0) {
-            readImage("src/bulletLeft.png");
+            iN = "src/bulletLeft.png";
             currentX -= speed;
         }
     }
 
     public void moveRight(){
         if (currentX < 740) { //specific number because only the left side is accounted for the sprite position and each sprite has a different amount of pixels
-            readImage("src/bulletRight.png");
+            iN = "src/bulletRight.png";
             currentX += speed;
         }
     }

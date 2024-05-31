@@ -28,6 +28,10 @@ class DrawPanel extends JPanel implements MouseListener, KeyListener {
     private Player two;
     private HouseScreen h;
 
+    private Bullet oneAttack;
+
+    private Bullet twoAttack;
+
     private Text t;
 
     private Graphics g;
@@ -39,6 +43,8 @@ class DrawPanel extends JPanel implements MouseListener, KeyListener {
         this.MenuButton = new Rectangle(491, 70, 150, 25);
         this.quitGameButton = new Rectangle(516, 100, 150, 25);
         this.loadBar = new Rectangle(327, 210, 280, 25);
+        this.oneAttack = new Bullet(one);
+        this.twoAttack = new Bullet(two);
         t = new Text(true);
         this.addMouseListener(this);
         this.addKeyListener(this);
@@ -73,38 +79,43 @@ class DrawPanel extends JPanel implements MouseListener, KeyListener {
         g.drawRect((int) quitGameButton.getX(), (int) quitGameButton.getY(), (int) quitGameButton.getWidth(), (int) quitGameButton.getHeight());
             g.drawImage(one.getImage(), one.getCurrentX(), one.getCurrentY(), 200, 100, null);
         g.drawImage(two.getImage(), two.getCurrentX(), two.getCurrentY(), 200, 100, null);
+       if ((one.getAttack()) && (one.getCurrentX() != 0)){
+           g.drawImage(oneAttack.getImage(), oneAttack.getCurrentX(), oneAttack.getCurrentY(), 200, 200, null);
+           oneAttack.moveLeft();
+       }
+
         if (press.get(0)){
             one.moveUp();
-            System.out.println(one.getCurrentY());
+        //    System.out.println(one.getCurrentY());
         }
         if (press.get(1)){
             one.moveDown();
-            System.out.println(one.getCurrentY());
+         //   System.out.println(one.getCurrentY());
         }
 
         if (press.get(2)){
             one.moveLeft();
-            System.out.println(one.getCurrentX());
+        //    System.out.println(one.getCurrentX());
         }
         if (press.get(3)){
             one.moveRight();
-            System.out.println(one.getCurrentX());
+        //    System.out.println(one.getCurrentX());
         }
         if (press.get(4)){
             two.moveUp();
-            System.out.println(two.getCurrentY());
+        //    System.out.println(two.getCurrentY());
         }
         if (press.get(5)){
             two.moveDown();
-            System.out.println(two.getCurrentY());
+         //   System.out.println(two.getCurrentY());
         }
         if (press.get(6)){
             two.moveLeft();
-            System.out.println(two.getCurrentX());
+        //    System.out.println(two.getCurrentX());
         }
         if (press.get(7)){
             two.moveRight();
-            System.out.println(two.getCurrentX());
+        //    System.out.println(two.getCurrentX());
         }
         if ((l.checkShowing()) && !(h.checkShowing()) && (s.checkShowing())){
             g.drawImage(l.getImage(), 0, 0, 900, 500, null);
@@ -214,6 +225,14 @@ class DrawPanel extends JPanel implements MouseListener, KeyListener {
 
         int pressed = e.getKeyCode();
 
+        if (pressed == KeyEvent.VK_M){
+            one.attackOn();
+        }
+
+        if (pressed == KeyEvent.VK_E){
+            two.attackOn();
+        }
+
         if (pressed == KeyEvent.VK_UP) {
             press.set(0, true);
 
@@ -245,6 +264,15 @@ class DrawPanel extends JPanel implements MouseListener, KeyListener {
 
     public void keyReleased(KeyEvent e) {
         int pressed = e.getKeyCode();
+
+       // if (pressed == KeyEvent.VK_M){
+     //       one.attackOff();
+      //  }
+
+        if (pressed == KeyEvent.VK_E){
+            two.attackOff();
+        }
+
         if (pressed == KeyEvent.VK_UP) {
             press.set(0, false);
         }

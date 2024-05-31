@@ -26,7 +26,8 @@ public class Player {
     public Player(String n, int x, int y, String imageName){
         name = n;
         health = 10;
-        this.image = readImage(imageName);
+        this.image = readImage(imageName); //start saviing all player direction images as different image variables
+
         move = false;
         this.currentX = x;
         this.currentY = y;
@@ -113,10 +114,12 @@ public class Player {
 
     public void attackOn(){
         attack = true;
+        System.out.println("attakc");
     }
 
     public void attackOff(){
         attack = false;
+        System.out.println("no attack");
     }
 
     public boolean getAttack(){

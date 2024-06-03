@@ -9,25 +9,22 @@ public class Bullet {
 
     private boolean move;
 
-    private String iN;
 
     private boolean isVisible;
 
     private int currentX;
 
     private int currentY;
-
-
     private BufferedImage image;
 
     public Bullet (Player p){
-        currentX = p.getCurrentX();
-        currentY = p.getCurrentY();
-        iN = "src/bulletUp.png";
+        currentX = 239;
+        currentY = 394;
+        image = readImage("src/bulletLeft.png");
     }
-    public BufferedImage readImage() {
+    public BufferedImage readImage(String imageName) {
         try {
-            image = ImageIO.read(new File(iN));
+            image = ImageIO.read(new File(imageName));
         }
         catch (IOException e) {
             System.out.println(e);
@@ -38,31 +35,34 @@ public class Bullet {
 
 
     public BufferedImage getImage(){
-        return image;
+     //   if (isVisible) {
+            return image;
+    //    }
+     //   return null;
     }
 
-    private boolean canMove(){
+    public boolean canMove(){
         return move;
     }
 
-    private void startMove(){
+    public void startMove(){
         move = true;
         //when movement is implemented create a condition where the player can onl move when this is called as the opening wont allow them to move
     }
 
-    private void stopMove(){
+    public void stopMove(){
         move = false;
     }
 
-    private void makeVisible(){
+    public void makeVisible(){
         isVisible = true;
     }
 
-    private void makeInvisible(){
+    public void makeInvisible(){
         isVisible = false;
     }
 
-    private boolean getIsVisible(){
+    public boolean getIsVisible(){
         return isVisible;
     }
     public void setLocation(int x, int y) {
@@ -73,28 +73,30 @@ public class Bullet {
 
     public void moveUp(){
         if (currentY > 0 ) {
-            iN ="src/bulletUp.png";
+            readImage("src/bulletUp.png");
             currentY -= speed;
         }
     }
 
     public void moveDown(){
         if (currentY < 350) {
-            iN = "src/bulletDown.png";
+            readImage("src/bulletDown.png");
             currentY += speed;
         }
     }
 
     public void moveLeft(){ //if char is facing left
         if (currentX > 0) {
-            iN = "src/bulletLeft.png";
+            readImage("src/bulletLeft.png");
+            currentX -= speed;
+            currentX -= speed;
             currentX -= speed;
         }
     }
 
     public void moveRight(){
         if (currentX < 740) { //specific number because only the left side is accounted for the sprite position and each sprite has a different amount of pixels
-            iN = "src/bulletRight.png";
+            readImage("src/bulletRight.png");
             currentX += speed;
         }
     }

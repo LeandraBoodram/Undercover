@@ -79,8 +79,9 @@ class DrawPanel extends JPanel implements MouseListener, KeyListener {
         g.drawRect((int) quitGameButton.getX(), (int) quitGameButton.getY(), (int) quitGameButton.getWidth(), (int) quitGameButton.getHeight());
             g.drawImage(one.getImage(), one.getCurrentX(), one.getCurrentY(), 200, 100, null);
         g.drawImage(two.getImage(), two.getCurrentX(), two.getCurrentY(), 200, 100, null);
-       if ((one.getAttack()) && (one.getCurrentX() != 0)){
-           g.drawImage(oneAttack.getImage(), oneAttack.getCurrentX(), oneAttack.getCurrentY(), 200, 200, null);
+        oneAttack.makeVisible();
+        g.drawImage(oneAttack.getImage(), 450, 270, 1000, 3000, null);
+        if ((one.getAttack()) && (one.getCurrentX() != 0) && (one.getFacedLeft())){
            oneAttack.moveLeft();
        }
 

@@ -6,10 +6,16 @@ import java.io.IOException;
 public class Player {
 
     private BufferedImage image;
+
+    private Boolean facedLeft;
+
+    private Boolean facedRight;
+
+    private Boolean facedDown;
+
+    private Boolean facedUp;
     private String name;
     private int coins;
-
-    private String direction;
 
     private boolean attack;
 
@@ -78,14 +84,20 @@ public class Player {
     public void moveUp(){
         if (currentY > 0 ) {
             currentY -= speed;
-            direction = "up";
+            facedDown = false;
+            facedLeft = false;
+            facedRight = false;
+            facedUp = true;
         }
     }
 
     public void moveDown(){
         if (currentY < 350) {
             currentY += speed;
-            direction = "down";
+            facedDown = true;
+            facedLeft = false;
+            facedRight = false;
+            facedUp = false;
         }
     }
 
@@ -93,7 +105,10 @@ public class Player {
         if (currentX > 0) {
             readImage("src/baseP1left.png");
             currentX -= speed;
-            direction = "left";
+            facedDown = false;
+            facedLeft = true;
+            facedRight = false;
+            facedUp = false;
         }
     }
 
@@ -101,7 +116,10 @@ public class Player {
         if (currentX < 740) { //specific number because only the left side is accounted for the sprite position and each sprite has a different amount of pixels
            readImage("src/baseP1Right.png");
             currentX += speed;
-            direction = "right";
+            facedDown = false;
+            facedLeft = false;
+            facedRight = true;
+            facedUp = false;
         }
     }
 
@@ -126,5 +144,20 @@ public class Player {
         return attack;
     }
 
+    public Boolean getFacedLeft(){
+        return facedLeft;
+    }
+
+  //  public Boolean getFacedDown(){
+  //      return facedDown;
+  //  }
+
+    public Boolean getFacedRight(){
+        return facedRight;
+    }
+
+  //  public Boolean getFacedUp(){
+  //      return facedUp;
+  //  }
 }
 

@@ -34,6 +34,10 @@ class DrawPanel extends JPanel implements MouseListener, KeyListener {
 
     private Text t;
 
+    private Text t2;
+
+    private Text t3;
+
     private Graphics g;
 
     public DrawPanel() {
@@ -46,6 +50,8 @@ class DrawPanel extends JPanel implements MouseListener, KeyListener {
         this.oneAttack = new Bullet(one);
         this.twoAttack = new Bullet(two);
         t = new Text(true);
+        t2 = new Text(true);
+        t3 = new Text(true);
         this.addMouseListener(this);
         this.addKeyListener(this);
         this.setFocusable(true);
@@ -85,7 +91,7 @@ class DrawPanel extends JPanel implements MouseListener, KeyListener {
            oneAttack.moveLeft();
        }
 
-        if (press.get(0)){
+        if ((press.get(0)) || ((h.checkShowing()) && (one.getCurrentY()) < 31)){
             one.moveUp();
         //    System.out.println(one.getCurrentY());
         }
@@ -94,10 +100,10 @@ class DrawPanel extends JPanel implements MouseListener, KeyListener {
          //   System.out.println(one.getCurrentY());
         }
 
-        if (press.get(2)){
-            one.moveLeft();
-        //    System.out.println(one.getCurrentX());
-        }
+       // if (press.get(2) !! ((h.checkShowing()) && ((one.getCurrentX()) > 26 && (one.getCurrentX()) < 172) || ((one.getCurrentX()) > 246 && ((one.getCurrentX() < 447))))){
+    //        one.moveLeft();
+     //       System.out.println(one.getCurrentX());
+    //}
         if (press.get(3)){
             one.moveRight();
         //    System.out.println(one.getCurrentX());
@@ -195,8 +201,17 @@ class DrawPanel extends JPanel implements MouseListener, KeyListener {
         }
         if ((h.checkShowing()) && !(s.checkShowing()) && !(l.checkShowing())) {
             g.drawImage(h.getImage(), 0, 0, 900, 500, null);
-            g.drawImage(t.getImage(), 100, 300, 700, 150, null);
-            t.textOne(g);
+            g.drawImage(t.getImage(), t.getX(), t.getY(), 700, 150, null);
+            if ((t.checkChange()) && (t.getClicks() == 1)){
+                g.drawImage(t2.getImage(), t2.getX(), t2.getY(), 700, 150, null);
+                t.textOne(g);
+                t.changeTextFalse();
+            }
+            if ((t2.checkChange()) && (t.getClicks() == 1)){
+                g.drawImage(t3.getImage(), t3.getX(), t3.getY(), 700, 150, null);
+                t.textTwo(g);
+                t.changeTextFalse();
+            }
             g.setColor(Color.WHITE);
             g.setFont(new Font("Courier New", Font.BOLD, 20));
             g.drawString("Player 1 uses Arrows to move", 491, 31);
@@ -303,8 +318,22 @@ class DrawPanel extends JPanel implements MouseListener, KeyListener {
     }
 
     public void mousePressed(MouseEvent e) {
-        if ((h.checkShowing()) && (t.getPlayed() != 1)){
-            t.textTwo(g);
+        if (((h.checkShowing()) && (t.getPlayed() != 1)) && (t.getClicks() == 0)){
+            t.changeY(784);
+            t.changeTextTrue();
+            t.addClicks();
+        }
+
+        if (((h.checkShowing()) && (t.getPlayed() != 1)) && (t.getClicks() == 1)){
+            t2.changeY(784);
+            t2.changeTextTrue();
+            t.addClicks();
+        }
+
+        if (((h.checkShowing()) && (t.getPlayed() != 1)) && (t.getClicks() == 2)){
+            t3.changeY(784);
+            t3.changeTextTrue();
+            t.addClicks();
         }
         if((button.contains(getMousePosition()))){
             s.stopShowing(s);

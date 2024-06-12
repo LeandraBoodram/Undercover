@@ -7,7 +7,7 @@ public class Player {
 
     private BufferedImage image;
 
-    private Boolean facedLeft;
+    private Boolean facedLeft = true;
 
     private Boolean facedRight;
 
@@ -83,43 +83,29 @@ public class Player {
 
     public void moveUp(){
         if (currentY > 0 ) {
+            readImage("src/p1Up.png");
             currentY -= speed;
-            facedDown = false;
-            facedLeft = false;
-            facedRight = false;
-            facedUp = true;
         }
     }
 
     public void moveDown(){
         if (currentY < 350) {
+            readImage("src/p1Down.png");
             currentY += speed;
-            facedDown = true;
-            facedLeft = false;
-            facedRight = false;
-            facedUp = false;
         }
     }
 
     public void moveLeft(){
         if (currentX > 0) {
-            readImage("src/baseP1left.png");
+            readImage("src/p1Left.png");
             currentX -= speed;
-            facedDown = false;
-            facedLeft = true;
-            facedRight = false;
-            facedUp = false;
         }
     }
 
     public void moveRight(){
         if (currentX < 740) { //specific number because only the left side is accounted for the sprite position and each sprite has a different amount of pixels
-           readImage("src/baseP1Right.png");
+           readImage("src/p1Right.png");
             currentX += speed;
-            facedDown = false;
-            facedLeft = false;
-            facedRight = true;
-            facedUp = false;
         }
     }
 
@@ -144,20 +130,40 @@ public class Player {
         return attack;
     }
 
+
+    public void faceLeft(boolean face){
+        facedLeft = face;
+    }
+
+    public void faceRight(boolean face){
+        facedRight = face;
+    }
+
+    public void faceUp(boolean face){
+        facedUp= face;
+    }
+
+    public void faceDown(boolean face){
+        facedDown = face;
+    }
+
     public Boolean getFacedLeft(){
         return facedLeft;
     }
 
-  //  public Boolean getFacedDown(){
-  //      return facedDown;
-  //  }
+    public Boolean getFacedUp(){
+        return facedUp;
+    }
+
+
+    public Boolean getFacedDown(){
+        return facedDown;
+    }
 
     public Boolean getFacedRight(){
         return facedRight;
     }
 
-  //  public Boolean getFacedUp(){
-  //      return facedUp;
-  //  }
+
 }
 

@@ -17,14 +17,14 @@ public class Bullet {
     private int currentY;
     private BufferedImage image;
 
-    public Bullet (Player p){
+    public Bullet (String imageName){
         currentX = 239;
         currentY = 394;
-        image = readImage("src/bulletLeft.png");
+        image = readImage(imageName);
     }
-    public BufferedImage readImage(String imageName) {
+    public BufferedImage readImage(String iN) {
         try {
-            image = ImageIO.read(new File(imageName));
+            image = ImageIO.read(new File(iN));
         }
         catch (IOException e) {
             System.out.println(e);
@@ -35,10 +35,11 @@ public class Bullet {
 
 
     public BufferedImage getImage(){
-     //   if (isVisible) {
+        if (isVisible) {
+            // Return the image only if the bullet is visible
             return image;
-    //    }
-     //   return null;
+        }
+        return null;
     }
 
     public boolean canMove(){
@@ -72,9 +73,12 @@ public class Bullet {
     }
 
     public void moveUp(){
-        if (currentY > 0 ) {
+        if (currentY > 0) {
             readImage("src/bulletUp.png");
             currentY -= speed;
+        } else {
+            // If the bullet goes off-screen, make it invisible
+            makeInvisible();
         }
     }
 
@@ -82,6 +86,9 @@ public class Bullet {
         if (currentY < 350) {
             readImage("src/bulletDown.png");
             currentY += speed;
+        } else {
+            // If the bullet goes off-screen, make it invisible
+            makeInvisible();
         }
     }
 
@@ -89,15 +96,19 @@ public class Bullet {
         if (currentX > 0) {
             readImage("src/bulletLeft.png");
             currentX -= speed;
-            currentX -= speed;
-            currentX -= speed;
+        } else {
+            // If the bullet goes off-screen, make it invisible
+            makeInvisible();
         }
     }
 
     public void moveRight(){
-        if (currentX < 740) { //specific number because only the left side is accounted for the sprite position and each sprite has a different amount of pixels
+        if (currentX < 740) {
             readImage("src/bulletRight.png");
             currentX += speed;
+        } else {
+            // If the bullet goes off-screen, make it invisible
+            makeInvisible();
         }
     }
 

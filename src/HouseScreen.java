@@ -22,7 +22,7 @@ public class HouseScreen{
 
     public BufferedImage readImage() {
         try {
-            image = ImageIO.read(new File("src/house.png"));
+            image = ImageIO.read(new File("src/bar.png"));
         }
         catch (IOException e) {
             System.out.println(e);

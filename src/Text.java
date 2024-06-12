@@ -19,19 +19,20 @@ public class Text {
     private int played; // it will be 1 when the final text bubble is played so the opening scene wont constantly be replayd
 
     private boolean isShowing;
-    public Text (boolean show) {
+
+    public Text (boolean show, String imageName) {
         this.isShowing = show;
-        this.image = readImage();
+        this.image = readImage(imageName);
         this.x = 100;
-        this.y = 300;
+        this.y = 20;
     }
 
-    public BufferedImage readImage() {
+    public BufferedImage readImage(String iN) {
         try {
-            image = ImageIO.read(new File("src/textBanner.png"));
+            image = ImageIO.read(new File(iN));
         }
         catch (IOException e) {
-            System.out.println(e);
+            System.out.println("hello");
             return null;
         }
         return image;
@@ -45,13 +46,6 @@ public class Text {
         played++;
     }
 
-    public void textOne(Graphics g){
-        g.drawString("Hello!", 160, 357);
-    }
-
-    public void textTwo(Graphics g){
-        g.drawString("Goodbye", 160, 357);
-    }
 
     public void changeX(int xValue){
         x = xValue;
@@ -82,7 +76,7 @@ public class Text {
     }
 
     public BufferedImage getImage() {
-        return image;
+       return image;
     }
 
     public int getClicks(){
@@ -93,7 +87,4 @@ public class Text {
         clicks++;
     }
 
-   // public void textTwo(Graphics g){
-   //     instance.repaint();
-  //  }
 }

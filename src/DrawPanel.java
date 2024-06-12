@@ -25,7 +25,7 @@ class DrawPanel extends JPanel implements MouseListener, KeyListener {
 
     private Player one;
 
-    private Player two;
+    private PlayerTwo two;
     private HouseScreen h;
 
     private Bullet oneAttack;
@@ -41,17 +41,19 @@ class DrawPanel extends JPanel implements MouseListener, KeyListener {
     private Graphics g;
 
     public DrawPanel() {
-        this.one = new Player("lol", 156, 85, "src/baseP1right.png");
-        this.two = new Player("lolTwo", 170, 85, "src/baseP1left.png");
-        this.button = new Rectangle(150, 100, 150, 25);
+        this.one = new Player("lol", 211, 175, "src/p1Right.png");
+        this.two = new PlayerTwo("lolTwo", 794, 272, "src/p2Left.png");
+        this.button = new Rectangle(196, 293, 150, 25);
         this.MenuButton = new Rectangle(491, 70, 150, 25);
         this.quitGameButton = new Rectangle(516, 100, 150, 25);
         this.loadBar = new Rectangle(327, 210, 280, 25);
-        this.oneAttack = new Bullet(one);
-        this.twoAttack = new Bullet(two);
-        t = new Text(true);
-        t2 = new Text(true);
-        t3 = new Text(true);
+        this.oneAttack = new Bullet("src/bulletLeft.png");
+        this.twoAttack = new Bullet("src/bulletLeft.png");
+        oneAttack.makeInvisible();
+        twoAttack.makeInvisible();
+        t = new Text(true, "src/text1.png");
+        t2 = new Text(true, "src/text2.png");
+        t3 = new Text(true, "src/text3.png");
         this.addMouseListener(this);
         this.addKeyListener(this);
         this.setFocusable(true);
@@ -76,36 +78,74 @@ class DrawPanel extends JPanel implements MouseListener, KeyListener {
         super.paintComponent(g);
         int x = 50;
         int y = 10;
+        g.setColor(Color.WHITE);
             s.setStartBoxLocation(x, y);
             g.drawImage(s.getImage(), 0, 0, 900, 500, null);
             g.setFont(new Font("Courier New", Font.BOLD, 20));
-            g.drawString("Start game", 165, 118);
+            g.drawString("Start game", 196, 293);
             g.drawRect((int) button.getX(), (int) button.getY(), (int) button.getWidth(), (int) button.getHeight());
-        g.drawString("Quit game", 540, 118);
-        g.drawRect((int) quitGameButton.getX(), (int) quitGameButton.getY(), (int) quitGameButton.getWidth(), (int) quitGameButton.getHeight());
-            g.drawImage(one.getImage(), one.getCurrentX(), one.getCurrentY(), 200, 100, null);
-        g.drawImage(two.getImage(), two.getCurrentX(), two.getCurrentY(), 200, 100, null);
-        oneAttack.makeVisible();
-        g.drawImage(oneAttack.getImage(), 450, 270, 1000, 3000, null);
-        if ((one.getAttack()) && (one.getCurrentX() != 0) && (one.getFacedLeft())){
-           oneAttack.moveLeft();
-       }
+        g.drawString("Quit game", 651, 310);
+        g.drawRect( 651, 293, (int) quitGameButton.getWidth(), (int) quitGameButton.getHeight());
+            g.drawImage(one.getImage(), one.getCurrentX(), one.getCurrentY(), 100, 50, null);
+        g.drawImage(two.getImage(), two.getCurrentX(), two.getCurrentY(), 100, 50, null);
+        if (oneAttack != null && oneAttack.getIsVisible()) {
+            g.drawImage(oneAttack.getImage(), oneAttack.getCurrentX(), oneAttack.getCurrentY(), null);
+            if (one.getFacedLeft()) {
+                oneAttack.moveLeft(); // Move bullet to the left
+                g.drawImage(oneAttack.getImage(), oneAttack.getCurrentX(), oneAttack.getCurrentY(), null);
+            } else if (one.getFacedRight()) {
+                oneAttack.moveRight(); // Move bullet to the right
+                g.drawImage(oneAttack.getImage(), oneAttack.getCurrentX(), oneAttack.getCurrentY(), null);
+            } else if (one.getFacedUp()) {
+                oneAttack.moveUp(); // Move bullet up
+                g.drawImage(oneAttack.getImage(), oneAttack.getCurrentX(), oneAttack.getCurrentY(), null);
+            } else if (one.getFacedDown()) {
+                oneAttack.moveDown(); // Move bullet down
+                g.drawImage(oneAttack.getImage(), oneAttack.getCurrentX(), oneAttack.getCurrentY(), null);
+            }
+        }
 
-        if ((press.get(0)) || ((h.checkShowing()) && (one.getCurrentY()) < 31)){
+        if (twoAttack != null && twoAttack.getIsVisible()) {
+            g.drawImage(twoAttack.getImage(), twoAttack.getCurrentX(), twoAttack.getCurrentY(), null);
+            // Move the bullet according to the direction the player is facing
+            if (two.getFacedLeft()) {
+                twoAttack.moveLeft();
+                g.drawImage(twoAttack.getImage(), twoAttack.getCurrentX(), twoAttack.getCurrentY(), null);
+            } else if (two.getFacedRight()) {
+                twoAttack.moveRight();
+                g.drawImage(twoAttack.getImage(), twoAttack.getCurrentX(), twoAttack.getCurrentY(), null);
+            } else if (two.getFacedUp()) {
+                twoAttack.moveUp();
+                g.drawImage(twoAttack.getImage(), twoAttack.getCurrentX(), twoAttack.getCurrentY(), null);
+            } else if (two.getFacedDown()) {
+                twoAttack.moveDown();
+                g.drawImage(twoAttack.getImage(), twoAttack.getCurrentX(), twoAttack.getCurrentY(), null);
+            }
+        }
+
+        if (press.get(0)){
             one.moveUp();
+            one.faceUp(true);
+            one.faceDown(false);
         //    System.out.println(one.getCurrentY());
         }
         if (press.get(1)){
             one.moveDown();
+            one.faceDown(true);
+            one.faceUp(false);
          //   System.out.println(one.getCurrentY());
         }
 
-       // if (press.get(2) !! ((h.checkShowing()) && ((one.getCurrentX()) > 26 && (one.getCurrentX()) < 172) || ((one.getCurrentX()) > 246 && ((one.getCurrentX() < 447))))){
-    //        one.moveLeft();
+        if (press.get(2)){
+            one.moveLeft();
+            one.faceLeft(true);
+            one.faceRight(false);
      //       System.out.println(one.getCurrentX());
-    //}
+        }
         if (press.get(3)){
             one.moveRight();
+            one.faceRight(true);
+            one.faceLeft(false);
         //    System.out.println(one.getCurrentX());
         }
         if (press.get(4)){
@@ -189,28 +229,34 @@ class DrawPanel extends JPanel implements MouseListener, KeyListener {
         }
 
         if((s.checkShowing()) && !(h.checkShowing()) && !(l.checkShowing())){
+            g.setColor(Color.WHITE);
             s.setStartBoxLocation(x, y);
             g.drawImage(s.getImage(), 0, 0, 900, 500, null);
             g.setFont(new Font("Courier New", Font.BOLD, 20));
-            g.drawString("Start", 165, 118);
-            g.drawRect((int) button.getX(), (int) button.getY(), (int) button.getWidth(), (int) button.getHeight());
-            g.drawString("Quit game", 540, 118);
-            g.drawRect((int) quitGameButton.getX(), (int) quitGameButton.getY(), (int) quitGameButton.getWidth(), (int) quitGameButton.getHeight());
-            g.drawImage(one.getImage(), one.getCurrentX(), one.getCurrentY(), 200, 100, null);
-            g.drawImage(two.getImage(), two.getCurrentX(), two.getCurrentY(), 200, 100, null);
+            g.drawString("Start", 182, 310);
+            g.drawRect(165, (int) button.getY(), (int) button.getWidth(), (int) button.getHeight());
+            g.drawString("Quit game", 521, 310);
+            g.drawRect(521, 293, (int) quitGameButton.getWidth(), (int) quitGameButton.getHeight());
+            g.drawImage(one.getImage(), one.getCurrentX(), one.getCurrentY(), 100, 50, null);
+            g.drawImage(two.getImage(), two.getCurrentX(), two.getCurrentY(), 100, 50, null);
         }
         if ((h.checkShowing()) && !(s.checkShowing()) && !(l.checkShowing())) {
             g.drawImage(h.getImage(), 0, 0, 900, 500, null);
-            g.drawImage(t.getImage(), t.getX(), t.getY(), 700, 150, null);
-            if ((t.checkChange()) && (t.getClicks() == 1)){
-                g.drawImage(t2.getImage(), t2.getX(), t2.getY(), 700, 150, null);
-                t.textOne(g);
-                t.changeTextFalse();
+            g.drawImage(t.getImage(), t.getX(), t.getY(), 700, 600, null);
+            if (t.getClicks() == 1){
+                t.changeX(1000);
+                t.changeY(0);
+                g.drawImage(t2.getImage(), t2.getX(), t2.getY(), 700, 500, null);
             }
-            if ((t2.checkChange()) && (t.getClicks() == 1)){
-                g.drawImage(t3.getImage(), t3.getX(), t3.getY(), 700, 150, null);
-                t.textTwo(g);
-                t.changeTextFalse();
+            if (t.getClicks() == 2){
+                t2.changeX(1000);
+                t2.changeY(0);
+                g.drawImage(t3.getImage(), t3.getX(), t3.getY(), 700, 500, null);
+
+            }
+            if (t.getClicks() == 3){
+                t3.changeX(1000);
+                t3.changeY(0);
             }
             g.setColor(Color.WHITE);
             g.setFont(new Font("Courier New", Font.BOLD, 20));
@@ -222,8 +268,8 @@ class DrawPanel extends JPanel implements MouseListener, KeyListener {
             g.drawRect((int) MenuButton.getX(), (int) MenuButton.getY(), (int) MenuButton.getWidth(), (int) MenuButton.getHeight());
             g.drawString("Quit game", 507, 118);
             g.drawRect((int) MenuButton.getX(), (int) quitGameButton.getY(), (int) quitGameButton.getWidth(), (int) quitGameButton.getHeight());
-            g.drawImage(one.getImage(), one.getCurrentX(), one.getCurrentY(), 200, 100, null);
-            g.drawImage(two.getImage(), two.getCurrentX(), two.getCurrentY(), 200, 100, null);
+            g.drawImage(one.getImage(), one.getCurrentX(), one.getCurrentY(), 100, 50, null);
+            g.drawImage(two.getImage(), two.getCurrentX(), two.getCurrentY(), 100, 50, null);
             }
 
             if (one.getHealth() == 0){
@@ -241,13 +287,17 @@ class DrawPanel extends JPanel implements MouseListener, KeyListener {
 
         int pressed = e.getKeyCode();
 
-        if (pressed == KeyEvent.VK_M){
+        if (pressed == KeyEvent.VK_M) {
             one.attackOn();
+            oneAttack.makeVisible();
         }
 
-        if (pressed == KeyEvent.VK_E){
+        // Player two shooting bullet
+        if (pressed == KeyEvent.VK_E) {
             two.attackOn();
+            twoAttack.makeVisible();
         }
+
 
         if (pressed == KeyEvent.VK_UP) {
             press.set(0, true);
@@ -281,14 +331,6 @@ class DrawPanel extends JPanel implements MouseListener, KeyListener {
     public void keyReleased(KeyEvent e) {
         int pressed = e.getKeyCode();
 
-       // if (pressed == KeyEvent.VK_M){
-     //       one.attackOff();
-      //  }
-
-        if (pressed == KeyEvent.VK_E){
-            two.attackOff();
-        }
-
         if (pressed == KeyEvent.VK_UP) {
             press.set(0, false);
         }
@@ -318,23 +360,10 @@ class DrawPanel extends JPanel implements MouseListener, KeyListener {
     }
 
     public void mousePressed(MouseEvent e) {
-        if (((h.checkShowing()) && (t.getPlayed() != 1)) && (t.getClicks() == 0)){
-            t.changeY(784);
-            t.changeTextTrue();
+        if (h.checkShowing()){
             t.addClicks();
         }
 
-        if (((h.checkShowing()) && (t.getPlayed() != 1)) && (t.getClicks() == 1)){
-            t2.changeY(784);
-            t2.changeTextTrue();
-            t.addClicks();
-        }
-
-        if (((h.checkShowing()) && (t.getPlayed() != 1)) && (t.getClicks() == 2)){
-            t3.changeY(784);
-            t3.changeTextTrue();
-            t.addClicks();
-        }
         if((button.contains(getMousePosition()))){
             s.stopShowing(s);
             h.startShowing(h);

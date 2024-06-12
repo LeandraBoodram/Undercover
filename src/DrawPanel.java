@@ -38,6 +38,8 @@ class DrawPanel extends JPanel implements MouseListener, KeyListener {
 
     private Text t3;
 
+    private Text t4;
+
     private Graphics g;
 
     public DrawPanel() {
@@ -54,6 +56,7 @@ class DrawPanel extends JPanel implements MouseListener, KeyListener {
         t = new Text(true, "src/text1.png");
         t2 = new Text(true, "src/text2.png");
         t3 = new Text(true, "src/text3.png");
+        t4 = new Text(true, "src/title.png");
         this.addMouseListener(this);
         this.addKeyListener(this);
         this.setFocusable(true);
@@ -86,8 +89,8 @@ class DrawPanel extends JPanel implements MouseListener, KeyListener {
             g.drawRect((int) button.getX(), (int) button.getY(), (int) button.getWidth(), (int) button.getHeight());
         g.drawString("Quit game", 651, 310);
         g.drawRect( 651, 293, (int) quitGameButton.getWidth(), (int) quitGameButton.getHeight());
-            g.drawImage(one.getImage(), one.getCurrentX(), one.getCurrentY(), 100, 50, null);
-        g.drawImage(two.getImage(), two.getCurrentX(), two.getCurrentY(), 100, 50, null);
+        g.drawImage(t4.getImage(), 320, 172, 300, 500, null);
+
         if (oneAttack != null && oneAttack.getIsVisible()) {
             g.drawImage(oneAttack.getImage(), oneAttack.getCurrentX(), oneAttack.getCurrentY(), null);
             if (one.getFacedLeft()) {
@@ -237,8 +240,7 @@ class DrawPanel extends JPanel implements MouseListener, KeyListener {
             g.drawRect(165, (int) button.getY(), (int) button.getWidth(), (int) button.getHeight());
             g.drawString("Quit game", 521, 310);
             g.drawRect(521, 293, (int) quitGameButton.getWidth(), (int) quitGameButton.getHeight());
-            g.drawImage(one.getImage(), one.getCurrentX(), one.getCurrentY(), 100, 50, null);
-            g.drawImage(two.getImage(), two.getCurrentX(), two.getCurrentY(), 100, 50, null);
+            g.drawImage(t4.getImage(), 180, -80, 500, 500, null);
         }
         if ((h.checkShowing()) && !(s.checkShowing()) && !(l.checkShowing())) {
             g.drawImage(h.getImage(), 0, 0, 900, 500, null);
